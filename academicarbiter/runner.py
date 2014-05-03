@@ -7,6 +7,8 @@ import semester
 def clean(value):
     value = value.lower()
     value = value.replace(" ","")
+    value = value.replace("'", "")
+    value = value.replace('"', "")
     return value
 
 #run the algorithm

@@ -3,6 +3,14 @@ import course
 import student
 import semester
 
+#take user input for course and reformat it
+def clean(value):
+    value = value.lower()
+    value = value.replace(" ","")
+    value = value.replace("'", "")
+    value = value.replace('"', "")
+    return value
+
 def getStudents() :
     students = []
     dump = []
@@ -27,7 +35,7 @@ def getStudents() :
                 curCourses = []
                 #loop over a semester
                 for z in range(int((len(dump[x+y][0]) - 1) / 4)):
-                    curCourses.append(course.course(dump[x+y][0][4 * z + 1], 
+                    curCourses.append(course.course(clean(dump[x+y][0][4 * z + 1]), 
                                                     int(dump[x+y][0][4 * z + 2]), 
                                                     int(dump[x+y][0][4 * z + 3]), 
                                                     int(dump[x+y][0][4 * z + 4])))

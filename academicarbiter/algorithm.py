@@ -5,6 +5,7 @@ import course
 class algorithm:
     #your info
     isemester = []
+    myCourseNames = []
     iconcentration = ""
     iyear = ""
     #fall or spring semester
@@ -63,11 +64,11 @@ class algorithm:
                 
                 #assign a weight for the other student's courses
                 for myClass in myClasses:
+                    self.myCourseNames.append(myClass.getName())
                     for theirClass in theirClasses:
                         #check if its the same course
                         if (myClass.getName() == 
                             theirClass.getName()):
-                            
                             #compare your scores for the class
                             #if its the same, then add, otherwise subtract
                             
@@ -102,22 +103,30 @@ class algorithm:
                 #get their courses for the next semester
                 theirClasses = curSemesters[semIndex + 1].getCourses()
                 
+                #This is for checking the similarity score of the student
+                #Uncomment it for testing
+                #print (similarity)
+                
                 #add their courses to a list of recs
                 for course in theirClasses:
-                    score = 0
-                    score += (similarity * course.getD() * self.diff)
-                    score += (similarity * course.getT() * self.teach)
-                    score += (similarity * course.getS() * self.subj)
-                    if course in self.courseRecs:
-                        self.courseRecs[course.getName()] += score
-                    else:
-                        self.courseRecs[course.getName()] = score 
+                    #make sure you haven't already taken the course
+                    if not(course.getName() in self.myCourseNames):
+                        score = 0
+                        score += (similarity * course.getD() * self.diff)
+                        score += (similarity * course.getT() * self.teach)
+                        score += (similarity * course.getS() * self.subj)
+                        if course in self.courseRecs:
+                            self.courseRecs[course.getName()] += score
+                        else:
+                            self.courseRecs[course.getName()] = score 
                                       
         #create a new sorted dictionary based on score for each course
         newRecs = dict()
         keys = self.courseRecs.keys()
         for x in keys:
             key = self.courseRecs[x]
+            #Uncomment this to check the weight of each course
+            #print (x + ":    " + str(key))
             if key in newRecs.keys(): 
                 newRecs[key].append(x)
             else:
